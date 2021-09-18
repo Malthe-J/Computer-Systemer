@@ -16,16 +16,6 @@ printf "Hello, World!\n" > test_files/ascii.input
 printf "Hello, World!" > test_files/ascii2.input
 printf "Hello, \x00World!\n" > test_files/data.input
 printf "Hello, World!\n" > test_files/data.input
-#printf "\x00Hello,\x00World!\n" > test_files/data.input
-#printf "\x00Hello, World!\n" > test_files/data.input
-#printf "÷\n" > test_files/data.input
-#printf "安倍晋三\n" > test_files/data.input
-#printf "����������������\n" > test_files/data.input
-#printf "\n" > test_files/data.input
-#printf "\n" > test_files/data.input
-#printf "\n" > test_files/data.input
-#printf "\n" > test_files/data.input
-#printf "\n" > test_files/data.input
 printf "" > test_files/empty.input
 printf "Not Empty\n" > test_files/empty2.input
 printf "&&áíóḱøåú" > test_files/ISO-8859.input
