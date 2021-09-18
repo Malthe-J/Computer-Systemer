@@ -2,12 +2,14 @@
 #include <stdlib.h> // exit, EXIT_FAILURE, EXIT_SUCCESS.
 #include <string.h> // strerror.
 #include <errno.h>  // errno.
+#include <assert.h>
 
 int print_hello_world() {
   return fprintf(stdout, "Hello, world!\n");
 }
 
 int main(int argc, char *argv[]) {
+  assert(argc == 2);
   int retval = EXIT_SUCCESS;
   FILE *fptr;
 #define IsUTF8(Character) (((Character) & 0xC0) == 0x80)
@@ -30,33 +32,34 @@ int main(int argc, char *argv[]) {
     }
 
   while (c != EOF)
+  
   {
-    printf("%i\n", c);
     if (c >= 7 && c <= 126)
     {
       
-      printf("%s: ASCII\n", filename);
+      printf("%s: ASCII text\n", filename);
       exit(0);
     }
-    int continuationByte = fgetc(fptr);
-    if (IsUTF8(continuationByte)){
-      printf("%s: UTF-8\n", filename);
+
+    else if (c >= 160) {
+      int continuationByte = fgetc(fptr);
+
+      if (IsUTF8(continuationByte))
+      {
+      printf("%s: UTF-8 Unicode text\n", filename);
+      exit(0);
+      }
+
+      else {
+      printf("%s: ISO text\n", filename);
+      exit(0);
+      }
+    }
+
+    else {
+      printf("%s: data \n", filename);
       exit(0);
     }
-    else
-    {
-        ungetc(continuationByte, fptr);
-    }
-    
-    if (c > 127 || c <= 255) 
-    {
-      printf("%s: ISO\n", filename);
-      exit(0);
-    }
-    
-    
-    printf ("%02x\n", c);
-    c = fgetc(fptr);
   }
   
   fclose(fptr);
