@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   assert(argc == 2);
   int retval = EXIT_SUCCESS;
   FILE *fptr;
-#define IsUTF8(Character) (((Character) & 0xC0) == 0x80)
+#define IsUTF8(Character) (((Character) & 0xC0) == 0x80) // Macro which has a variable called Character and if you & with 0xC0 it has to give 0x80 and then it is a UTF-8 character.
   char* filename = argv[1];
   int c;
   // Open file
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
       exit(0);
   }
 
-  c = fgetc(fptr);
+  c = fgetc(fptr); //we use fgetc because it reads 1 byte at a time
   if (c == EOF)
     {
       printf("%s: empty\n", filename);
@@ -41,10 +41,10 @@ int main(int argc, char *argv[]) {
       exit(0);
     }
 
-    else if (c >= 160) {
-      int continuationByte = fgetc(fptr);
+    else if (c >= 160) { // In this case we dont check whether the value is below 255 since It's 8-bit
+      int continuationByte = fgetc(fptr); //If the value is over 127, then It's either ISO or UTF-8 and to find out which we have to check the next byte which this variable does.
 
-      if (IsUTF8(continuationByte))
+      if (IsUTF8(continuationByte)) //If the next byte checks out with our macro, then It's UTF-8, if not then Its ISO and if either, then It's data
       {
       printf("%s: UTF-8 Unicode text\n", filename);
       exit(0);
