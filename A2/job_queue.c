@@ -5,7 +5,19 @@
 #include "job_queue.h"
 
 int job_queue_init(struct job_queue *job_queue, int capacity) {
-  struct job_queue *job_queue = malloc(sizeof(struct job_queue));
+  struct job_queue q;
+  job_queue_init(&q, 64);
+
+  job_queue->Capacity = capacity;
+  job_queue->arr[0] = NULL;
+  struct job_queue *q = malloc(sizeof(struct job_queue)* capacity);
+  
+  for (int i = 0; i < capacity; i++)
+  {
+    job_queue->arr[i] = NULL;
+  }
+  
+  return &q;
 }
 
 int job_queue_destroy(struct job_queue *job_queue) {
